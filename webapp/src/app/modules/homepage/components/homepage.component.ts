@@ -24,35 +24,16 @@ import * as fromServicesShared from '@shared/services';
 export class HomepageComponent implements OnInit {
   public isLoading$: Observable<boolean>;
   public userLogged: any;
-  
-  public posts$: Observable<Array<fromModels.Post>>;
-  public posts: Array<fromModels.Post> = [];
 
   constructor(
     private _store: Store<fromStore.HomepageState>,
-    private _formBuilder: FormBuilder,
-    private _service: fromServices.HomepageService,
     private _serviceProfile: fromServicesProfile.ProfileService,
-    private _utils: fromServicesShared.UtilsService
   ) {
     this.isLoading$ = this._store.pipe(select(fromReducer.getLoading));
     this.userLogged = this._serviceProfile.getUserLogged();
-    
-    this.posts$ = this._store.pipe(select(fromReducer.getPosts));
-    this.posts$.subscribe((posts) => {
-      if (typeof posts !== 'undefined') {
-        this.posts = posts;
-      }
-    });
   }
 
-  ngOnInit() {
-    this.getPosts();
-  }
-
-  getPosts() {
-    this._store.dispatch(new fromActions.GetPosts());
-  }
+  ngOnInit() { }
 
   goTo(path: string) {
     this._store.dispatch(new fromStoreCore.Go({

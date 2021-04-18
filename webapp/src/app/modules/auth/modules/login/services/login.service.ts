@@ -25,6 +25,7 @@ export class LoginService {
 
     const params = JSON.stringify(userToLogin);
 
+    console.log(params);
     return this._http.post(`${this._url}user/login`, params)
       .pipe(
         catchError(this._utils.handleErrorHttp)

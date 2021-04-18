@@ -12,6 +12,13 @@ const UserSchema = Schema({
   },
   create_at: String,
   last_login: String,
+  contacts: [
+    { 
+      type: Schema.ObjectId, 
+      ref: 'User',
+      select: false
+    }
+  ],
 });
 
 module.exports = mongoose.model('User', UserSchema);

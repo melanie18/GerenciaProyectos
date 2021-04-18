@@ -17,8 +17,26 @@ export class HomepageService {
     this._url = environment.apiUrl;
   }
 
-  getPosts() {
-    return this._http.get(`${this._url}posts`)
+  addContact(data: any) {
+    const params = JSON.stringify({ 
+      userId: data.user,
+      contactId: data.contact
+    });
+    return this._http.post(`${this._url}user/contact/add`, params)
+      .pipe(
+        catchError(this._utils.handleErrorHttp)
+      );
+  }
+
+  getContacts(user: string) {
+    return this._http.get(`${this._url}user/contact/all/${user}`)
+      .pipe(
+        catchError(this._utils.handleErrorHttp)
+      );
+  }
+
+  getUsers() {
+    return this._http.get(`${this._url}user/all`)
       .pipe(
         catchError(this._utils.handleErrorHttp)
       );

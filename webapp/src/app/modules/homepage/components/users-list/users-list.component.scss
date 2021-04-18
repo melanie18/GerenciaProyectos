@@ -1,0 +1,18 @@
+@import "src/styles/base/variables";
+
+.users-list {
+  padding: 20px;
+  border-top: 3px solid #CCCCCC;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  background-color: #F1F1F1;
+
+  mat-list {
+    margin-top: 20px;
+
+    .mat-list-item-content {
+      padding-right: 0 !important;
+      padding-left: 0 !important;
+    }
+  }
+}

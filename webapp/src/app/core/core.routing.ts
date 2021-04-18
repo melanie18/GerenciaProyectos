@@ -14,6 +14,11 @@ export const routes: Routes = [
     canActivate: [fromGuards.LoggedInGuard],
     loadChildren: () => import('src/app/modules/homepage/homepage.module').then(m => m.HomepageModule)
   },
+  {
+    path: 'profile',
+    canActivate: [fromGuards.LoggedInGuard],
+    loadChildren: () => import('src/app/modules/profile/profile.module').then(m => m.ProfileModule)
+  },
   { path: '**', component: fromComponents.ErrorComponent },
 ];
 

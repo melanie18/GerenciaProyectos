@@ -43,7 +43,7 @@ export class ProfileService {
   }
 
   getUserEmpty() {
-    return new fromModels.User('', '', '', '', '', '', '', '');
+    return new fromModels.User('', '', '', '', '', '');
   }
 
   getUserLogged() {

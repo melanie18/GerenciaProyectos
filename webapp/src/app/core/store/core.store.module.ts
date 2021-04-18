@@ -74,7 +74,7 @@ metaReducers.push(clearState);
     fromStoreRecoveryPassword.RecoveryPasswordStoreModule,
     fromStoreRegister.RegisterStoreModule,
     fromStoreProfile.ProfileStoreModule,
-    //fromStoreHomepage.HomepageStoreModule,
+    fromStoreHomepage.HomepageStoreModule,
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },

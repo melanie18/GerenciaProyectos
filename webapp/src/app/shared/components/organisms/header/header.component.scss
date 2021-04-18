@@ -4,9 +4,12 @@
 @import "src/styles/base/grid";
 
 .o-header {
-  position: relative;
   padding-top: 15px;
   padding-bottom: 15px;
+
+  > .container {
+    position: relative;
+  }
 
   &__brand {
     text-align: center;
@@ -14,5 +17,10 @@
     img {
       width: 160px;
     }
+  }
+
+  &__menu {
+    position: absolute;
+    right: 10px;
   }
 }

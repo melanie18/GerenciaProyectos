@@ -51,8 +51,7 @@ export class LoginEffects {
           width: '350px',
           data: {
             title: 'Alert',
-            message: response.message,
-            alert: true
+            message: response
           }
         }
         this._utils.showDialog(content);

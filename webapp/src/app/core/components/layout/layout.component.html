@@ -1,7 +1,7 @@
 <div id="wrapper" class="meet-app grid-column">
     <meet-app-header (loaded)="loadedChildComponent($event, 'header')" class="col-shrink"></meet-app-header>
 
-    <main #main role="main" class="meet-app__container col-expand grid-middle-center">
+    <main #main role="main" class="meet-app__container col-expand" [ngClass]="{ 'grid-middle-center': isAuth }">
         <router-outlet></router-outlet>
     </main>
 

@@ -4,15 +4,14 @@ require('dotenv').config();
 
 const fs = require('fs');
 const path = require('path');
-
 const bcrypt = require('bcrypt-nodejs');
 const moment = require('moment');
+const hbs = require('nodemailer-express-handlebars');
+const nodemailer = require('nodemailer');
 
 const User = require('../models/user');
 const jwt = require('../services/jwt');
 
-const hbs = require('nodemailer-express-handlebars');
-const nodemailer = require('nodemailer');
 
 function createUser(req, res) {
   let user = new User();
@@ -259,13 +258,22 @@ function login(req, res) {
           message: 'Something was wrong, please contact with the Administrator.',
           error: err
         })
-      }
-      else {
+      } else {
         if (check) {
-          res.status(200).send({
-            message: 'Login success.',
-            user: userToValidate,
-            token: jwt.createToken(userToValidate),
+          userToValidate.last_login = moment().unix();
+          userToValidate.save((err, userStored) => {
+            if (err) {
+              res.status(500).send({
+                message: 'Something was wrong, please contact with the Administrator.',
+                error: err
+              })
+            } else {
+              res.status(200).send({
+                message: 'Login success.',
+                user: userToValidate,
+                token: jwt.createToken(userToValidate),
+              })  
+            }
           })
         } else {
           res.status(500).send({
@@ -286,7 +294,13 @@ function login(req, res) {
           error: err
         })
       } else {
-        validatorPassword(password, userFound);
+        if (userFound) {
+          validatorPassword(password, userFound);
+        } else {
+          res.status(500).send({
+            message: 'This is not a registered user.'
+          })
+        }
       }
     })
   }
@@ -298,6 +312,37 @@ function login(req, res) {
   } else {
     validatorEmail();
   }
+}
+
+function getContacts(req, res) {
+  const id = req.params.user;
+  User.findById(id, (err, userFound) => {
+    if (err) {
+      res.status(500).send({
+        message: 'Something was wrong, please contact with the Administrator.',
+        error: err
+      })
+    } else {
+      if (!userFound) {
+        res.status(500).send({
+          message: "We don't any registered user with this email."
+        })
+      } else {
+        User.populate(userFound, { path: 'contacts', select: 'name email last_login _id' }, (err, userWithContacts) => {
+          if (err) {
+            res.status(500).send({
+              message: 'Something was wrong, please contact with the Administrator.',
+              error: err
+            })
+          } else {
+            res.status(200).send({
+              contacts: userWithContacts.contacts
+            })
+          }
+        })
+      }
+    }
+  })
 }
 
 function getAll(req, res) {
@@ -315,10 +360,38 @@ function getAll(req, res) {
   })
 }
 
+function addContact(req, res) {
+  const params = req.body;
+  User.findByIdAndUpdate(
+    params.userId,
+    { '$push': { 'contacts': params.contactId } },
+    { 'new': true, 'upsert': true },
+    (err, userFound) => {
+      if (err) {
+        res.status(500).send({
+          message: 'Something was wrong, please contact with the Administrator.',
+          error: err
+        })
+      } else {
+        if (!userFound) {
+          res.status(500).send({
+            message: "We don't any registered user with this email."
+          })
+        } else {
+          res.status(200).send({
+            message: `New contact added.`,
+          })
+        }
+      }
+  })
+}
+
 module.exports = {
   createUser,
   recoveryPassword,
   changePassword,
   login,
-  getAll
+  getAll,
+  getContacts,
+  addContact
 }

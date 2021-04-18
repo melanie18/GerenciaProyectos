@@ -2,10 +2,12 @@ import * as fromModels from '@app/models';
 
 export interface HomepageState {
   isLoading: boolean;
-  posts: Array<fromModels.Post>;
+  contacts: Array<fromModels.User>;
+  users: Array<fromModels.User>;
 }
 
 export const initialState: HomepageState = {
   isLoading: false,
-  posts: [],
+  contacts: [],
+  users: []
 };

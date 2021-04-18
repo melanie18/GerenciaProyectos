@@ -204,4 +204,6 @@ $RECYCLE.BIN/
 
 /uploads
 
+package-lock.json
+
 # End of https://www.gitignore.io/api/sass,node,images,windows,angular,webstorm+all,apachecordova

@@ -1,14 +1,15 @@
-### MEAN Starter pack - Server
+# MEAN Starter pack - Server
 
 ## Features
 
-MongoDB
-ExpressJS
-NodeMailer
-Morgan
+- MongoDB
+- ExpressJS
+- NodeMailer
+- Morgan
+- JWT Authentification
 
 
-## Initial configuration
+### Initial configuration
 
 Search and replace this strings
 

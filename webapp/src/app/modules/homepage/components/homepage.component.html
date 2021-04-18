@@ -1,3 +1,16 @@
 <section class="p-home-page">
-  <h1>Homepage</h1>
+  <meet-app-loader [show]="(isLoading$ | async)!" [overlay]="true"></meet-app-loader>
+
+  <div class="p-home-page__container container mat-elevation-z2">
+    <div class="grid">
+      <aside class="p-home-page__lists col-4_xs-12_md-5">
+        <meet-app-contact-list></meet-app-contact-list>
+        <meet-app-users-list></meet-app-users-list>
+      </aside>
+
+      <div class="p-home-page__chat col-8_xs-12_md-7">
+        <meet-app-chat></meet-app-chat>
+      </div>
+    </div>
+  </div>
 </section>

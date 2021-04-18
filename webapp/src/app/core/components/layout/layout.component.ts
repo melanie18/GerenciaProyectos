@@ -21,6 +21,7 @@ export class LayoutComponent implements AfterViewInit {
   public sizeMain: number = 0;
   public headerLoaded: boolean = false;
   public footerLoaded: boolean = false;
+  public isAuth: boolean = false;
 
   constructor(
     private matIconRegistry: MatIconRegistry,
@@ -39,6 +40,17 @@ export class LayoutComponent implements AfterViewInit {
     ).subscribe((event: NavigationEnd) => {
       const path = event.urlAfterRedirects;
       this._title.setTitle(`${this.formatTitlePage(path)} - TITLE_PROJECT`);
+      
+      switch (path) {
+        case '/login':
+        case '/register':
+        case '/recovery-password':
+          this.isAuth = true;
+          break;
+
+        default:
+          this.isAuth = false;
+      }
     });
   }
 
