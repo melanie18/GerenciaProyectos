@@ -1,0 +1,191 @@
+<section class="p-profile" [ngStyle]="{'height.px': container.offsetHeight}">
+  <meet-app-loader [show]="isLoading$ | async" [overlay]="true"></meet-app-loader>
+
+  <div #container class="p-profile__container">
+    <form class="o-forms grid-middle" [formGroup]="profileFormGroup" autocomplete="false" (ngSubmit)="onUpdateProfile()">
+      <div class="p-profile__avatar col_xs-12 grid-middle" [ngStyle]="{'background-image': 'url(' + user.avatar + ')', 'height.px': container.offsetHeight}">
+        <figure class="profile-thumbnail col-12">
+          <div class="profile-thumbnail__wrapper">
+            <i *ngIf="!user.avatar && uploaderAvatar.queue.length == 0" class="material-icons">account_circle</i>
+            <img *ngIf="user.avatar &&  uploaderAvatar.queue.length == 0" src="{{ user.avatar }}" title="{{ user.name }}">
+
+            <div class="o-forms__field">
+              <label *ngIf="uploaderAvatar.queue.length == 0">
+                <i class="material-icons">photo_camera</i>
+                <input type="file" ng2FileSelect [uploader]="uploaderAvatar" />
+              </label>
+            </div>
+
+            <div
+              ng2FileDrop
+              [ngClass]="{'is-dropped': hasBaseDropZoneOver}"
+              [uploader]="uploaderAvatar"
+              (fileOver)="fileDropped($event)"
+              class="drop-zone">
+              <img *ngIf="hasBaseDropZoneOver" class="icon-upload" src="../../../../assets/images/icons/icon-upload.svg">
+            </div>
+
+            <ng-container *ngIf="uploaderAvatar.queue.length > 0">
+              <img #avatar class="hidden-xs" src="" imgPreview [image]="uploaderAvatar.queue[0]?._file"/>
+              <div class="container-loader" [ngStyle]="{ 'height.px': avatar.offsetHeight, 'width.px': avatar.offsetWidth, 'left.px': avatar.offsetLeft }">
+                <mat-progress-spinner [diameter]="avatar.width + 10" [strokeWidth]="3" [color]="color" [mode]="upFileProgressBarMode" [value]="uploaderAvatar.progress"></mat-progress-spinner>
+              </div>
+            </ng-container>
+          </div>
+
+          <div *ngFor="let image of uploaderAvatar.queue" class="drop-zone__data grid-noGutter-center-middle">
+            <div class="col-12 t-center">
+              <span class="data-namefile mb-10">{{ image?.file?.name }}</span>
+              <span class="data-sizefile mb-10">{{ image?.file?.size/1024/1024 | number:'.2' }} MB</span>
+              <div class="data-actions grid-top-center">
+                <button mat-mini-fab (click)="image.upload()" [disabled]="image.isReady || image.isUploading || image.isSuccess" data-action="upload">
+                  <mat-icon>file_upload</mat-icon>
+                </button>
+      
+                <button mat-mini-fab (click)="image.remove()" data-action="remove">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <h1 class="profile-name">
+            {{ user.name }}
+          </h1>
+        </figure>
+      </div>
+
+      <div class="col">
+        <div class="container">
+          <div class="grid-spaceBetween">
+            <div class="p-profile__form col-5_xs-12" data-push-left="off-7_xs-0">
+              <div class="o-forms__field">
+                <mat-form-field>
+                  <mat-label class="o-forms__field__label">Nombres</mat-label>
+                  <input matInput formControlName="name">
+                  <mat-icon matSuffix>mode_edit</mat-icon>
+
+                  <mat-error *ngIf="getField('name').invalid">
+                    El nombre es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="o-forms__field">
+                <mat-form-field>
+                  <mat-label class="o-forms__field__label">Apellidos</mat-label>
+                  <input matInput formControlName="lastName">
+                  <mat-icon matSuffix>mode_edit</mat-icon>
+                  <mat-error *ngIf="getField('lastName').invalid">
+                    Los apellidos son requeridos
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="o-forms__field">
+                <mat-form-field>
+                  <mat-label class="o-forms__field__label">Correo electronico</mat-label>
+                  <input matInput formControlName="email">
+                  <mat-icon matSuffix>mode_edit</mat-icon>
+                  <mat-error *ngIf="getField('email').invalid">
+                    El correo electronico es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="o-forms__field">
+                <mat-form-field>
+                  <mat-label>País</mat-label>
+                  <mat-select formControlName="country_id" (selectionChange)="getProvincesByCountry($event)">
+                    <mat-option [value]="">Seleccione un país...</mat-option>
+                    <mat-option *ngFor="let country of countries" [value]="country.id">
+                      {{ country.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="getField('country_id').invalid">
+                    Debe especificar un país
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="o-forms__field">
+                <mat-form-field>
+                  <mat-label>Provincia</mat-label>
+                  <mat-select formControlName="province_id" (selectionChange)="getCitiesByProvince($event)">
+                    <mat-option *ngFor="let provincy of provinces" [value]="provincy.id">
+                      {{ provincy.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="getField('province_id').invalid">
+                    Debe especificar una provincia
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="o-forms__field">
+                <mat-form-field>
+                  <mat-label>Ciudad</mat-label>
+                  <mat-select formControlName="city_id">
+                    <mat-option *ngFor="let city of cities" [value]="city.id">
+                      {{ city.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="getField('city_id').invalid">
+                    Debe especificar una ciudad
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="o-forms__field">
+                <mat-form-field>
+                  <mat-label class="o-forms__field__label">Teléfono</mat-label>
+                  <input matInput formControlName="phone">
+                  <mat-icon matPrefix>phone</mat-icon>
+                  <mat-error *ngIf="getField('phone').invalid">
+                    El telefono es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="o-forms__field">
+                <mat-form-field>
+                  <mat-label class="o-forms__field__label">Contraseña</mat-label>
+                  <input matInput formControlName="password" [type]="!hide ? 'password' : 'text'">
+
+                  <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+
+              <ng-container *ngIf="user.role.id == 5">
+                <div class="o-forms__field o-forms__field--credit-card">
+                  <mat-form-field>
+                    <mat-label class="o-forms__field__label">Cuenta de stripe</mat-label>
+                    <input matInput [value]="promoter_stripe" readonly>
+                    <mat-icon matPrefix>credit_card</mat-icon>
+                    <img (click)="connectToStripe()" src="../../../../assets/images/icons/stripe-icon.svg" alt="Stripe">
+                  </mat-form-field>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="user.role.id !== 5">
+                <div class="o-forms__field o-forms__field--credit-card">
+                  <mat-form-field>
+                    <mat-label class="o-forms__field__label">Últimos 4 números de tarjeta:</mat-label>
+                    <input matInput value="**** {{ last_four }}" readonly>
+                    <mat-icon matPrefix>credit_card</mat-icon>
+                    <span *ngIf="last_four != ''" class="modify-card" (click)="saveCard()">¿Modificar tarjeta?</span>
+                    <span *ngIf="last_four == ''" class="modify-card" (click)="saveCard()">¿Guardar tarjeta?</span>
+                  </mat-form-field>
+                </div>
+              </ng-container>
+
+              <button type="submit" [disabled]="!profileFormGroup.valid" class="button button--block button--primary">
+                Actualizar perfil
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

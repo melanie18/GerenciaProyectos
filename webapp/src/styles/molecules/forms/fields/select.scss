@@ -1,0 +1,18 @@
+.mat-select {
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #D0D0D0;
+  border-radius: 15px;
+
+  &-panel {
+    .mat-option,
+    .mat-optgroup-label {
+      height: 40px !important;
+      line-height: 40px !important;
+    }
+
+    .mat-option-text {
+      @include font-regular;
+    }
+  }
+}

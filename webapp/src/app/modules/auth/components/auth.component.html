@@ -1,0 +1,18 @@
+<section class="t-auth">
+    <meet-app-loader [show]="(isLoading$ | async)!" [overlay]="true"></meet-app-loader>
+
+    <div class="container">
+        <div class="t-auth__container">
+            <figure class="t-auth__logo">
+                <img src="../../../../assets/images/logotype.svg">
+            </figure>
+
+            <h1 [innerHTML]="title" class="t-auth__title"></h1>
+
+            <div class="t-auth__form col-8">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</section>
+ 

@@ -1,0 +1,60 @@
+@import "src/styles/base/variables";
+@import "src/styles/base/typographics";
+@import "src/styles/base/utils";
+
+.message {
+  &--alert {
+    color: $color-danger;
+  }
+}
+
+.mat-dialog {
+  &-title {
+    color: $color-primary;
+  }
+
+  &-content {
+    position: relative;
+    max-height: 450px;
+  
+    * {
+      word-break: break-word;
+    }
+  
+    .body-html {
+      @include paragraph-styles;
+      word-break: break-all;
+  
+      .file-item {
+  
+        .material-icons {
+          display: block;
+        }
+      }
+    }
+  
+    .ng-scrollbar-layout {
+      padding-right: 5px;
+    }
+  
+    .highlighted {
+      font-size: 18px;
+    }
+
+    .mat-form-field {
+      width: 100%;
+    }
+  }
+
+  &-actions {
+    margin-bottom: -10px;
+  
+    .button {
+      margin-right: 10px;
+  
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

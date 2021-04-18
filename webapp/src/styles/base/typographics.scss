@@ -1,0 +1,117 @@
+@mixin font-bold {
+  font-family: $font;
+  font-weight: 700;
+}
+
+@mixin font-semi-bold {
+  font-family: $font;
+  font-weight: 600;
+}
+
+@mixin font-medium {
+  font-family: $font;
+  font-weight: 500;
+}
+
+@mixin font-regular {
+  font-family: $font;
+  font-weight: 400;
+}
+
+@mixin font-light {
+  font-family: $font;
+  font-weight: 300;
+}
+
+@mixin paragraph-styles {
+  @include font-regular;
+  color: $color-text;
+  font-size: $font-paragraph-size;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include font-bold;
+  color: $color-text;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 25px;
+}
+
+h3 {
+  font-size: 20px;
+  
+}
+
+h4 {
+  font-size: 18px;
+}
+
+p,
+ul li,
+ol li {
+  @include paragraph-styles;
+}
+
+ul li,
+ol li {
+  margin-bottom: 15px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+ol {
+  padding-left: 30px;
+
+  > li {
+    position: relative;
+    counter-increment: list;
+    list-style-type: none;
+
+    &:before {
+      color: #fa6e70;
+      content: counter(list) ".";
+      position: absolute;
+      top: 7px;
+      left: -32px;
+      text-align: right;
+      width: 26px;
+    }
+  }
+}
+
+a {
+  @include paragraph-styles;
+  @include font-semi-bold;
+  transition-property: color;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    transition-timing-function: ease-in;
+    color: $color-accent;
+    text-decoration: none;
+  }
+}
+
+strong {
+  @include font-bold;
+}

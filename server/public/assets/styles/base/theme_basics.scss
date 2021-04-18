@@ -1,0 +1,61 @@
+html, body {
+    overflow: hidden;
+}
+
+body {
+    @media all and (max-width: $screen-md) {
+        max-height: 100vh;
+        overflow-y: scroll;
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.area-andina {
+    &__container {
+        box-sizing: border-box;
+        padding-top: 40px;
+        padding-bottom: 40px;
+
+        @media all and (max-width: $screen-md) {
+            min-height: calc(100vh - 241px);
+        }
+
+        @media all and (min-width: $screen-md) {
+            overflow: hidden;
+            height: calc(100vh - 122px);
+            max-height: calc(100vh - 122px);
+            overflow-y: auto;
+            padding-top: 20px;
+            padding-bottom: 20px;
+
+            @media all and (min-height: 768px) {
+                padding-top: 50px;
+                padding-bottom: 50px;
+            }
+        }
+
+        &.in-login {
+            @media all and (min-width: $screen-md) {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    @media all and (min-width: 1240px) {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}

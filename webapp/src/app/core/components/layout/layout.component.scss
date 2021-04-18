@@ -1,0 +1,15 @@
+@import "src/styles/base/variables";
+
+.meet-app {
+  overflow: hidden;
+  height: 100vh;
+  max-height: 100vh;
+
+  &__container {
+    overflow-y: auto;
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #F1F1F1;
+  }
+}

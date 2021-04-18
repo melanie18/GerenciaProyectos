@@ -1,0 +1,37 @@
+.swiper-container {
+  overflow: hidden;
+}
+
+.mat-select-panel .mat-optgroup-label,
+.mat-select-panel .mat-option {
+  height: 40px !important;
+  line-height: 40px !important;
+}
+
+.mat-option-text {
+  @include paragraph-styles;
+}
+
+.mat-calendar {
+  &-period-button {
+    .mat-button-wrapper {
+      @include paragraph-styles;
+    }
+  }
+
+  .mat-calendar-body {
+    &-label {
+      @include paragraph-styles;
+    }
+
+    &-cell-content {
+      @include font-light;
+    }
+
+    &-selected {
+      border-color: $color-primary;
+      background-color: $color-primary;
+      color: #FFFFFF;
+    }
+  }
+}

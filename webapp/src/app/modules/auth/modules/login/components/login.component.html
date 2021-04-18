@@ -1,0 +1,44 @@
+<form class="o-forms" [formGroup]="loginForm" autocomplete="off" (ngSubmit)="onLogin()">
+    <div class="o-forms__container-fields">
+        <div class="o-forms__field">
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+
+                <mat-error *ngIf="getField('email')?.errors?.required">
+                    Email is required
+                </mat-error>
+                <mat-error *ngIf="!getField('email')?.errors?.required && getField('email')?.errors?.pattern">
+                    Please enter a valid email
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="o-forms__field">
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password" [type]="!hide ? 'password' : 'text'">
+
+                <button      mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+
+                <mat-error *ngIf="getField('password')?.errors?.required">
+                    Password is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="mt-30 t-center">
+        <a (click)="goTo('recovery-password')" class="recovery-password-action d-block t-center mb-20">Forget your password?</a>
+    </div>
+
+    <div class="o-forms__actions t-center">
+        <button mat-raised-button type="submit" color="primary" [disabled]="!loginForm.valid">Login</button>
+    </div>
+
+    <div class="mt-30 t-center">
+        <a (click)="goTo('register')" class="register-action d-block t-center">Doesn't have an account? Sign Up</a>
+    </div>
+</form>

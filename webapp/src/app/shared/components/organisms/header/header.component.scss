@@ -1,0 +1,18 @@
+@import "src/styles/base/variables";
+@import "src/styles/base/utils";
+@import 'src/styles/packages/gridlex/gridlex';
+@import "src/styles/base/grid";
+
+.o-header {
+  position: relative;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  &__brand {
+    text-align: center;
+
+    img {
+      width: 160px;
+    }
+  }
+}

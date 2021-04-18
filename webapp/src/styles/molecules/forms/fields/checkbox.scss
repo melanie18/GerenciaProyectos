@@ -1,0 +1,23 @@
+.mat-checkbox {
+  $checkbox: '.mat-checkbox';
+
+  #{$checkbox}-label {
+    @include font-regular;
+    letter-spacing: .54px;
+    color: $color-text;
+    font-size: 16px;
+  }
+
+  #{$checkbox}-inner-container {
+    #{$checkbox}-frame {
+      background-color: #FFFFFF;
+      border-width: 1px;
+      border-radius: 0;
+      border-color: #FFFFFF;
+    } 
+  }
+
+  #{$checkbox}-background {
+    background-color: darken($color-primary, 10%) !important;
+  }
+}

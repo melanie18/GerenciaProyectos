@@ -1,0 +1,50 @@
+@import "~@angular/material/theming";
+
+$custom-typography: mat-typography-config(
+  $font-family: $font,
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+@include angular-material-typography($custom-typography);
+
+@include mat-core();
+
+$custom-pallete: (
+  50 : #e0e4e9,
+  100 : #b3bac8,
+  200 : #808da4,
+  300 : #4d5f80,
+  400 : #263c64,
+  500 : #001a49,
+  600 : #001742,
+  700 : #001339,
+  800 : #000f31,
+  900 : #000821,
+  A100 : #5d6eff,
+  A200 : #2a40ff,
+  A400 : #0019f6,
+  A700 : #0016dd,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+$custom-theme-primary: mat-palette($custom-pallete);
+$custom-theme-accent: mat-palette($mat-pink);
+$custom-theme-warn: mat-palette($mat-red, 500, A200, A700);
+
+$app-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $custom-theme-warn);
+@include angular-material-theme($app-theme);

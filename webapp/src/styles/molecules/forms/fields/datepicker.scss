@@ -1,0 +1,23 @@
+.mat-calendar {
+  &-period-button {
+    .mat-button-wrapper {
+      @include font-regular;
+    }
+  }
+
+  .mat-calendar-body {
+    &-label {
+      @include font-regular;
+    }
+
+    &-cell-content {
+      @include font-light;
+    }
+
+    &-selected {
+      border-color: $color-primary;
+      background-color: $color-primary;
+      color: #ffffff;
+    }
+  }
+}

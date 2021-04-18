@@ -1,0 +1,9 @@
+<div id="wrapper" class="meet-app grid-column">
+    <meet-app-header (loaded)="loadedChildComponent($event, 'header')" class="col-shrink"></meet-app-header>
+
+    <main #main role="main" class="meet-app__container col-expand grid-middle-center">
+        <router-outlet></router-outlet>
+    </main>
+
+    <meet-app-footer (loaded)="loadedChildComponent($event, 'footer')" class="col-shrink"></meet-app-footer>
+</div>
