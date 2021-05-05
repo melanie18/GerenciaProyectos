@@ -32,6 +32,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ) {
     this.userLogged = this._serviceProfile.getUserLogged();
     this.isCallStarted$ = this._service.isCallStarted$;
+    this.peerId = this._service.initPeer();
 
     this.modalForm = this._formBuilder.group({
       id: ['', ''],
@@ -52,15 +53,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   createCall() {
-    this.peerId = this._service.initPeer();
     this._utils.showDialog({
       width: 500,
       data: {
         title: 'Room created',
         message: this.peerId,
       },
-      onClose: (result: any) => {
-        this._service.establishMediaCall(this.peerId!);
+      onClose: () => {
+        this._service.enableCallAnswer();
         this.inCall = true;
       }
     });

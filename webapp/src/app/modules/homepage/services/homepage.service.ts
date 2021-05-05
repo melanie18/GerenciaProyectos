@@ -78,29 +78,12 @@ export class HomepageService {
   }
 
   public async establishMediaCall(remotePeerId: string) {
-    const peerJsOptions: Peer.PeerJSOption = {
-      debug: 3,
-      config: {
-        iceServers: [
-          {
-            urls: [
-              'stun:stun1.l.google.com:19302',
-              'stun:stun2.l.google.com:19302',
-            ],
-          },
-        ],
-      },
-    };
-    this.peer = new Peer(remotePeerId, peerJsOptions);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 
       const connection = this.peer.connect(remotePeerId);
-      connection.on('error', (err) => {
-        console.error('connection error ', err);
+      connection.on('error', err => {
+        console.error(err);
         //this.snackBar.open(err, 'Close');
       });
 
@@ -113,19 +96,49 @@ export class HomepageService {
       this.localStreamBs.next(stream);
       this.isCallStartedBs.next(true);
 
-      this.mediaCall.on('stream', (remoteStream) => {
-        this.remoteStreamBs.next(remoteStream);
-      });
-      this.mediaCall.on('error', (err) => {
-        //this.snackBar.open(err, 'Close');
-        console.error(err);
-        this.isCallStartedBs.next(false);
-      });
+      this.mediaCall.on('stream',
+        (remoteStream) => {
+          this.remoteStreamBs.next(remoteStream);
+        });
+      
+      this.mediaCall.on('error', 
+        (err) => {
+          //this.snackBar.open(err, 'Close');
+          console.error(err);
+          this.isCallStartedBs.next(false);
+        });
+      
       this.mediaCall.on('close', () => this.onCallClose());
     } catch (ex) {
       console.error(ex);
       //this.snackBar.open(ex, 'Close');
       this.isCallStartedBs.next(false);
+    }
+  }
+
+  public async enableCallAnswer() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      this.localStreamBs.next(stream);
+      this.peer.on('call', async (call) => {
+        this.mediaCall = call;
+        this.isCallStartedBs.next(true);
+
+        this.mediaCall.answer(stream);
+        this.mediaCall.on('stream', (remoteStream) => {
+          this.remoteStreamBs.next(remoteStream);
+        });
+        this.mediaCall.on('error', err => {
+          //this.snackBar.open(err, 'Close');
+          this.isCallStartedBs.next(false);
+          console.error(err);
+        });
+          this.mediaCall.on('close', () => this.onCallClose());
+      });           
+    } catch (ex) {
+        console.error(ex);
+        //this.snackBar.open(ex, 'Close');
+        this.isCallStartedBs.next(false);            
     }
   }
 
