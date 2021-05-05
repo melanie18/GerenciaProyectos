@@ -1,3 +1,25 @@
-<section class="chat">
-  <h1>Chat</h1>
-</section>
+<div class="chat">
+  <ng-container *ngIf="!inCall">
+    <header class="chat__header">
+      <button mat-raised-button color="primary" (click)="createCall()">Create Meet</button>
+      <button mat-raised-button color="primary" (click)="joinCall()">Join Meet</button>
+    </header>
+  </ng-container>
+
+  <ng-container *ngIf="inCall">
+    <div class="chat__call grid-bottom">
+      <div class="remote-video col-10_xs-12">
+        <video #remoteVideo id="remote-video" poster="./assets/images/video-placeholder.jpg" autoplay playsinline></video>
+      </div>
+      <div class="local-video col-2_xs-12">
+        <video #localVideo id="local-video" autoplay playsinline [muted]=true></video>
+      </div>
+    </div>
+
+    <div class="chat__actions">
+      <button mat-icon-button color="accent" class="mat-elevation-z2" [disabled]="!(isCallStarted$ | async)" (click)="endCall()">
+        <mat-icon>call_end</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+</div>

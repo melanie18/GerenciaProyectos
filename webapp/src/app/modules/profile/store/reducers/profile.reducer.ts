@@ -31,10 +31,8 @@ export function ProfileReducer(state = fromStore.initialState, action: fromActio
 
 const exportLoading = (state: fromStore.ProfileState) => state.isLoading;
 const exportUser = (state: fromStore.ProfileState) => state.user;
-const exportToken = (state: fromStore.ProfileState) => state.token;
 
 export const selectProfileState = createFeatureSelector<fromStore.ProfileState>('profile');
 
 export const getLoading = createSelector(selectProfileState, exportLoading);
 export const getUser = createSelector(selectProfileState, exportUser);
-export const getToken = createSelector(selectProfileState, exportToken);

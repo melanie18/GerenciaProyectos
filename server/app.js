@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const { StreamChat } = require('stream-chat');
 const bodyParser = require('body-parser');
 
 const path = require('path');

@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const https = require('https');
 const fs = require('fs');
 const app = require('./app');
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -15,8 +17,18 @@ mongoose
   .then(() => {
     console.log('Coonections with MongoDB successful : meet-app');
 
+    io.on('connection', socket => {
+      socket.on('join-room', (roomId, userId) => {
+        socket.join(roomId);
+        socket.to(roomId).broadcast.emit('user-connected', userId);
 
-    app.listen(process.env.PORT, process.env.HOST, () => {
+        socket.on('disconnect', () => {
+          socket.to(roomId).broadcast.emit('user-disconnected', userId);
+        })
+      });
+    })
+
+    server.listen(process.env.PORT, process.env.HOST, () => {
       console.log(`Server runing correctly in http://${process.env.HOST}:${process.env.PORT}`);
     })
   })

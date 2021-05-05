@@ -1,5 +1,31 @@
 @import "src/styles/base/variables";
 
 .chat {
-  
+  &__header {
+    text-align: right;
+
+    button {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__call {
+    video {
+      object-fit: cover;
+    }
+
+    .remote-video {
+      video {
+        width: 100%;
+      }
+    }
+  }
+
+  &__actions {
+    text-align: center;
+  }
 }

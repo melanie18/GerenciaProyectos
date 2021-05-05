@@ -2,16 +2,11 @@
 
 require('dotenv').config();
 
-const fs = require('fs');
-const path = require('path');
 const bcrypt = require('bcrypt-nodejs');
 const moment = require('moment');
-const hbs = require('nodemailer-express-handlebars');
-const nodemailer = require('nodemailer');
 
 const User = require('../models/user');
 const jwt = require('../services/jwt');
-
 
 function createUser(req, res) {
   let user = new User();
@@ -20,14 +15,9 @@ function createUser(req, res) {
   let dispatchSave = () => {
     user.name = !params.name ? '' : params.name;
     user.email = !params.email ? '' : params.email;
-    user.phone = !params.phone ? '' : params.phone;
-    user.role = 'user';
-    user.avatar_url = !params.avatar_url ? '' : params.avatar_url;
     user.created_at = moment().format('DD/MM/YYYY');
     user.last_login = '';
     user.updated_at = '';
-    user.state = false;
-    user.state = 'Usuario';
 
     bcrypt.hash(params.password, null, null, (err, hash) => {
       if (err) {
@@ -47,51 +37,6 @@ function createUser(req, res) {
             res.status(200).send({
               message: 'User registration successfully.'
             })
-            // const messageEmail = {
-            //   to: `<${user.email}>`,
-            //   subject: '[Areandina] Activación de Usuario',
-            //   template: 'active-user',
-            //   context: {
-            //     link: `${process.env.IPPROD}/login?user=${userStored._id}`,
-            //   }
-            // }
-
-            // const Email = {};
-            // Email.transporter = nodemailer.createTransport(
-            //     {
-            //         service: 'Gmail',
-            //         auth: {
-            //           user: process.env.EMAIL_APPLICATION,
-            //           pass: process.env.PASSWORD_EMAIL_APPLICATION
-            //         },
-            //     }
-            // );
-            // Email.transporter.use('compile', hbs({
-            //   viewEngine: {
-            //     extName: '.hbs',
-            //     partialsDir: path.join(__dirname, '../views/templates-email'),
-            //     layoutsDir: path.join(__dirname, '../views/templates-email'),
-            //     defaultLayout: 'active-user.hbs',
-            //   },
-            //   extName: '.hbs',
-            //   viewPath: path.join(__dirname, '../views/templates-email')
-            // }));
-            // Email.transporter.sendMail(messageEmail, (error, info) => {
-            //   if (error) {
-            //     console.log(error);
-            //     res.status(500).send({
-            //       message: '[ERROR] Sending email user to activate'
-            //     })
-
-            //     return;
-            //   }
-
-            //   Email.transporter.close();
-            //   res.status(200).send({
-            //     message: 'Usuario registrado con exito.',
-            //     user: userStored
-            //   })
-            // })
           }
         })
       }
@@ -154,51 +99,6 @@ function recoveryPassword(req, res) {
         res.status(200).send({
           message: `Go to this link: ${host}/recovery-password?user=${userFound._id}`,
         })
-
-        // let messageEmail = {
-        //   // to: `<${data}>`,
-        //   // subject: 'Recuperación de tu contraseña',
-        //   // template: 'recovery-password',
-        //   context: {
-        //     link: `${process.env.IPPROD}/recuperar-contrasena?user=${userFound._id}`,
-        //   },
-        // }
-
-        // const EmailRecovery = {};
-        // EmailRecovery.transporter = nodemailer.createTransport(
-        //     {
-        //         service: 'Gmail',
-        //         auth: {
-        //           user: process.env.EMAIL_APPLICATION,
-        //           pass: process.env.PASSWORD_EMAIL_APPLICATION
-        //         },
-        //     }
-        // );
-        // EmailRecovery.transporter.use('compile', hbs({
-        //   viewEngine: {
-        //     extName: '.hbs',
-        //     partialsDir: path.join(__dirname, '../views/templates-email'),
-        //     layoutsDir: path.join(__dirname, '../views/templates-email'),
-        //     defaultLayout: 'recovery-password.hbs',
-        //   },
-        //   extName: '.hbs',
-        //   viewPath: path.join(__dirname, '../views/templates-email')
-        // }));
-        // EmailRecovery.transporter.sendMail(messageEmail, (error, info) => {
-        //   if (error) {
-        //     console.log(error);
-        //     res.status(500).send({
-        //       message: '[ERROR] Sending email user to recovery password'
-        //     })
-
-        //     return;
-        //   }
-
-        //   EmailRecovery.transporter.close();
-        //   res.status(200).send({
-        //     message: 'Se ha enviado un email con las instrucciones para recuperar tu contraseña.',
-        //   })
-        // })
       }
     }
   })

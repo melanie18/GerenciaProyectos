@@ -16,8 +16,6 @@ export class ProfileService {
   private _url: string;
   private user$: Observable<any>;
   private _user: fromModels.User;
-  private token$: Observable<any>;
-  private _token: string = '';
 
   constructor(
     private _http: HttpClient,
@@ -33,13 +31,6 @@ export class ProfileService {
         this._user = user;
       }
     });
-
-    this.token$ = this._store.pipe(select(fromReducer.getToken));
-    this.token$.subscribe((token) => {
-      if (typeof token !== 'undefined') {
-        this._token = token;
-      }
-    });
   }
 
   getUserEmpty() {
@@ -52,10 +43,6 @@ export class ProfileService {
     }
 
     return this._user;
-  }
-
-  getToken() {
-    return this._token;
   }
 
   updateUser(user: any) {

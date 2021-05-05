@@ -1,5 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, Event, NavigationEnd } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -16,8 +15,7 @@ import * as fromServicesShared from '@shared/services';
   templateUrl: './layout.component.html',
   providers: [fromServicesShared.UtilsService]
 })
-export class LayoutComponent implements AfterViewInit {
-  @ViewChild('main') main?: ElementRef;
+export class LayoutComponent {
   public sizeMain: number = 0;
   public headerLoaded: boolean = false;
   public footerLoaded: boolean = false;
@@ -39,7 +37,7 @@ export class LayoutComponent implements AfterViewInit {
       filter((e: Event): e is NavigationEnd => e instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       const path = event.urlAfterRedirects;
-      this._title.setTitle(`${this.formatTitlePage(path)} - TITLE_PROJECT`);
+      this._title.setTitle(`${this.formatTitlePage(path)} - Meet App`);
       
       switch (path) {
         case '/login':
@@ -52,26 +50,6 @@ export class LayoutComponent implements AfterViewInit {
           this.isAuth = false;
       }
     });
-  }
-
-  ngAfterViewInit() {
-    const controller = setInterval(() => {
-      if (this.main && (this.headerLoaded && this.footerLoaded)) {
-        this.main.nativeElement.style.height = `${window.innerHeight - this.sizeMain}px`;
-        this.main.nativeElement.style.maxHeight = `${window.innerHeight - this.sizeMain}px`;
-        clearInterval(controller);
-      }
-    }, 500);
-  }
-
-  loadedChildComponent(data: any, from: any) {
-    if (from === 'header') {
-      this.headerLoaded = true;
-    } else if (from === 'footer') {
-      this.footerLoaded = true;
-    }
-
-    this.sizeMain += data;
   }
 
   formatTitlePage(path: any) {

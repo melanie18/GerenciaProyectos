@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 import * as fromModels from '@app/models';
 import * as fromServicesProfile from '@profile/services';
@@ -23,6 +24,7 @@ export class ContactListComponent implements OnInit {
 
   constructor(
     private _store: Store<fromStore.HomepageState>,
+    private _service: fromServices.HomepageService,
     private _serviceProfile: fromServicesProfile.ProfileService,
   ) {
     this.userLogged = this._serviceProfile.getUserLogged();
@@ -41,11 +43,5 @@ export class ContactListComponent implements OnInit {
 
   getContacs() {
     this._store.dispatch(new fromStore.GetContacts(this.userLogged._id));
-  }
-
-  goTo(path: string) {
-    this._store.dispatch(new fromStoreCore.Go({
-      path: [path]
-    }));
   }
 }

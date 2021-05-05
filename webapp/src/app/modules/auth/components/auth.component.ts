@@ -18,7 +18,7 @@ import * as fromStoreRecoveryPassword from '@recovery-password/store';
 })
 export class AuthComponent implements OnInit {
   public isLoading$: Observable<boolean>;
-  public title: string = 'Welcome to <span>TITLE_PROJECT</span>';
+  public title: string = 'Welcome to <span>Meet App</span>';
   
   constructor(
     private _store: Store<fromStoreCore.CoreState>,

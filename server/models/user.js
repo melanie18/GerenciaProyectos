@@ -12,6 +12,7 @@ const UserSchema = Schema({
   },
   create_at: String,
   last_login: String,
+  updated_at: String,
   contacts: [
     { 
       type: Schema.ObjectId, 

@@ -2,6 +2,8 @@
 
 .t-auth {
   &__container {
+    box-sizing: border-box;
+    width: 100vw;
     max-width: 600px;
     margin-right: auto;
     margin-left: auto;

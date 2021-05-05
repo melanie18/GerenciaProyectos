@@ -9,9 +9,13 @@
   mat-list {
     margin-top: 20px;
 
-    .mat-list-item-content {
-      padding-right: 0 !important;
-      padding-left: 0 !important;
+    mat-list-item {
+      cursor: pointer;
+
+      .mat-list-item-content {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+      }
     }
   }
 }

@@ -4,8 +4,6 @@ const express = require('express');
 const UserController = require('../controllers/user');
 const router = express.Router();
 
-const multipart = require('connect-multiparty');
-
 router.post('/user/register', UserController.createUser);
 router.get('/user/recovery-password/:email', UserController.recoveryPassword);
 router.post('/user/change-password', UserController.changePassword);
