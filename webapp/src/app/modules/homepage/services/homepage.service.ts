@@ -82,7 +82,7 @@ export class HomepageService {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 
       const connection = this.peer.connect(remotePeerId);
-      connection.on('error', err => {
+      connection.on('error', (err: any) => {
         console.error(err);
         //this.snackBar.open(err, 'Close');
       });
@@ -97,12 +97,12 @@ export class HomepageService {
       this.isCallStartedBs.next(true);
 
       this.mediaCall.on('stream',
-        (remoteStream) => {
+        (remoteStream: any) => {
           this.remoteStreamBs.next(remoteStream);
         });
       
       this.mediaCall.on('error', 
-        (err) => {
+        (err: any) => {
           //this.snackBar.open(err, 'Close');
           console.error(err);
           this.isCallStartedBs.next(false);
@@ -120,15 +120,15 @@ export class HomepageService {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       this.localStreamBs.next(stream);
-      this.peer.on('call', async (call) => {
+      this.peer.on('call', async (call: any) => {
         this.mediaCall = call;
         this.isCallStartedBs.next(true);
 
         this.mediaCall.answer(stream);
-        this.mediaCall.on('stream', (remoteStream) => {
+        this.mediaCall.on('stream', (remoteStream: any) => {
           this.remoteStreamBs.next(remoteStream);
         });
-        this.mediaCall.on('error', err => {
+        this.mediaCall.on('error', (err: any) => {
           //this.snackBar.open(err, 'Close');
           this.isCallStartedBs.next(false);
           console.error(err);
