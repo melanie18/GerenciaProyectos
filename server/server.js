@@ -9,9 +9,9 @@ const app = require('./app');
 
 const options = {}
 let server = {};
-if (process.env.NODE_ENV === 'production') {
-  options.key = fs.readFileSync('/var/www/certificates/private.key');
-  options.cert = fs.readFileSync('/var/www/certificates/certificate.crt');
+if (process.env.ENVIRONMENT === 'production') {
+  options.key = fs.readFileSync('/var/www/certificates/meet-app.key');
+  options.cert = fs.readFileSync('/var/www/certificates/meet-app.crt');
   server = https.createServer(options, app);
 } else {
   server = require('http').Server(app);

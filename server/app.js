@@ -34,12 +34,6 @@ app.use(cors());
 app.all('/**', (req, res, next) => {
   if (req.path.includes('api')) {
     next();
-  } else if (req.path.includes('.well-known')) {
-    res.status(200).set({
-      'content-type': 'text/html; charset=utf-8'
-    }).sendFile('.well-known/pki-validation/ECE97FF698F3AFFA4B2C46F290D636E9.txt', {
-      root: __dirname
-    });
   } else {
     res.status(200).set({
       'content-type': 'text/html; charset=utf-8'
