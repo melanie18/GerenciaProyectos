@@ -6,7 +6,16 @@ const mongoose = require('mongoose');
 const https = require('https');
 const fs = require('fs');
 const app = require('./app');
-const server = require('http').Server(app);
+
+const options = {}
+let server = {};
+if (process.env.NODE_ENV === 'production') {
+  options.key = fs.readFileSync('/var/www/certificates/private.key');
+  options.cert = fs.readFileSync('/var/www/certificates/certificate.crt');
+  server = https.createServer(options, app);
+} else {
+  server = require('http').Server(app);
+}
 const io = require('socket.io')(server);
 
 mongoose.Promise = global.Promise;
@@ -33,4 +42,3 @@ mongoose
     })
   })
   .catch(err => console.log(err));
-  
